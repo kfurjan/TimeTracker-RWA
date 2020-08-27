@@ -1,0 +1,80 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminSite.master.cs" Inherits="AdminSite.AdminSite" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/style.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form" runat="server">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul id="navbar-links" class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <asp:HyperLink
+                            ID="hlEmployee"
+                            NavigateUrl="~/Employee.aspx"
+                            CssClass="nav-link custom-underline"
+                            runat="server" meta:resourcekey="hlEmployeeMasterResource">Employees</asp:HyperLink>
+                    </li>
+                    <li class="nav-item px-2">
+                        <asp:HyperLink
+                            ID="hlProject"
+                            NavigateUrl="~/Project.aspx"
+                            CssClass="nav-link custom-underline"
+                            runat="server" meta:resourcekey="hlProjectMasterResource">Projects</asp:HyperLink>
+                    </li>
+                    <li class="nav-item px-2">
+                        <asp:HyperLink
+                            ID="hlTeam"
+                            NavigateUrl="~/Team.aspx"
+                            CssClass="nav-link custom-underline"
+                            runat="server" meta:resourcekey="hlTeamMasterResource">Teams</asp:HyperLink>
+                    </li>
+                    <li class="nav-item px-2">
+                        <asp:HyperLink
+                            ID="hlClient"
+                            NavigateUrl="~/Client.aspx"
+                            CssClass="nav-link custom-underline"
+                            runat="server" meta:resourcekey="hlClientMasterResource">Clients</asp:HyperLink>
+                    </li>
+                    <li class="nav-item px-2">
+                        <asp:HyperLink
+                            ID="hlReport"
+                            NavigateUrl="~/Report.aspx"
+                            CssClass="nav-link custom-underline"
+                            runat="server" meta:resourcekey="hlReportMasterResource">Reports</asp:HyperLink>
+                    </li>
+                    <li class="nav-item px-2">
+                        <asp:HyperLink
+                            ID="hlSettings"
+                            NavigateUrl="~/Settings.aspx"
+                            CssClass="nav-link custom-underline"
+                            runat="server" meta:resourcekey="hlSettingsMasterResource">Settings</asp:HyperLink>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+        </asp:ContentPlaceHolder>
+
+        <div class="container">
+            <footer>
+                <hr />
+                <p>&copy; <%: DateTime.Now.Year %> - AdminSite</p>
+            </footer>
+        </div>
+    </form>
+    <script src="Scripts/jquery-3.5.1.js"></script>
+    <script src="Scripts/popper.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+</body>
+</html>

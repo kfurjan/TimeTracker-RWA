@@ -1,0 +1,40 @@
+﻿@using DataAccessLayer.Models
+@using TimeTrackerSite.Resources
+@{
+    ViewBag.Title = _Layout.employeesPage;
+    var employee = Session?["user"] as Employee ?? new Employee();
+}
+
+<div class="jumbotron">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Employees.name</th>
+                <th>@Employees.team</th>
+                <th>@Employees.project</th>
+                <th>@Employees.timeWorked</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+@section scripts
+{
+    <script>
+        const dataTable = {
+            ajax: {
+                url: '/api/employees/@employee.IdEmployee',
+                dataSrc: ''
+            },
+            columns: [
+                { data: 'Fullname' },
+                { data: 'TeamName' },
+                { data: 'ProjectName' },
+                { data: 'TimeWorked' }
+            ]
+        }
+
+        $('.table').DataTable(dataTable);
+    </script>
+}

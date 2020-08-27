@@ -1,0 +1,57 @@
+﻿@using DataAccessLayer.Models
+@using TimeTrackerSite.Resources
+@{
+    var employee = Session?["user"] as Employee;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul id="navbar-links" class="navbar-nav">
+                <li class="nav-item">
+                    @Html.ActionLink(_Layout.projectPage, "Projects", "Home", null, new { @class = "nav-link custom-underline" })
+                </li>
+                @{
+                    if (employee.EmployeeType == EmployeeType.Director || employee.EmployeeType == EmployeeType.TeamLead)
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink(_Layout.employeesPage, "Employees", "Home", null, new { @class = "nav-link custom-underline" })
+                        </li>
+                    }
+                }
+                <li class="nav-item">
+                    @Html.ActionLink(_Layout.settingsPage, "Settings", "Settings", null, new { @class = "nav-link custom-underline" })
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    @Html.ActionLink(_Layout.logOut, "Logout", "Logout", null, new { @class = "nav-link custom-underline" })
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - RWA-PRA-TimeTracker</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datatables")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

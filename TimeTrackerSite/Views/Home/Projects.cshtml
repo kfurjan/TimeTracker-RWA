@@ -1,0 +1,87 @@
+﻿@using DataAccessLayer.Models
+@using TimeTrackerSite.Resources
+@{
+    ViewBag.Title = _Layout.projectPage;
+    var employee = Session?["user"] as Employee ?? new Employee();
+    var employeeName = $"{employee.Firstname} {employee.Lastname}";
+}
+
+<h2>@employeeName</h2>
+<div class="jumbotron">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>@Projects.projectName</th>
+                <th>@Projects.projectDescription</th>
+                <th>@Projects.projectTimeWorked</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+@section scripts
+{
+    <script>
+        const onBtnSaveClick = element => {
+            const employeeId = @employee.IdEmployee;
+            const projectId = $(element).data('id');
+            const timeWorked = $(element).parents('tr:first').find("input[type=number]")[0].value;
+
+            $.ajax({
+                url: `/api/projects/${employeeId}/${projectId}/${timeWorked}`,
+                async: true,
+                method: 'PUT'
+                })
+                .done(() => {
+                    location.reload();
+                })
+                .fail(() => {
+                    console.error("Project time worked did not update");
+                });
+        }
+
+        const dataTable = {
+            ajax: {
+                url: '/api/projects/@employee.IdEmployee',
+                dataSrc: ''
+            },
+            columns: [
+                { data: 'IdProject' },
+                { data: 'Name' },
+                {
+                    data: 'Description',
+                    render: (data, type, row) => {
+                        return row.Description.trim() === "''" ? null : row.Description;
+                    }
+
+                },
+                {
+                    data: 'TimeWorked',
+                    render: (data, type, row) => {
+                        return `<input
+                                    id="inputTimeWorked"
+                                    type="number" min=0
+                                    class="form-control"
+                                    value=${row.TimeWorked}>`;
+                    }
+                },
+                {
+                    data: '',
+                    render: (data, type, row) => {
+                        return `<button
+                                    id="btnSave"
+                                    class="btn btn-outline-success btn-sm"
+                                    onclick="onBtnSaveClick(this)"
+                                    data-id=${row.IdProject}>@Projects.btnSave
+                                </button>`;
+                    }
+                }
+            ]
+        }
+
+        $('.table').DataTable(dataTable);
+    </script>
+}

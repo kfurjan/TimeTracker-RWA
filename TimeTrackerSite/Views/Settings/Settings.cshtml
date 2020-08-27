@@ -1,0 +1,62 @@
+﻿@using TimeTrackerSite.Resources
+@model DataAccessLayer.Models.Employee
+
+@{
+    ViewBag.Title = Settings.settingsTitle;
+}
+
+<h2>@Settings.settingsTitle</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <img src="@Url.Content("~/Content/Images/person_placeholder.png")" class="img-thumbnail img-fluid" alt="Employee placeholder" />
+        </div>
+        <div class="col-sm-6">
+            <p class="text-muted pt-2">@Settings.settingsName</p>
+            <h4 class="text-sm-left text-break">@Model.ToString()</h4>
+            <p class="text-muted pt-5">@Settings.settingsEmail</p>
+            <h4 class="text-sm-left text-break">@Model.Email</h4>
+            <p class="text-muted pt-5">@Settings.settingsEmType</p>
+            <h4 class="text-sm-left text-break">@Model.EmployeeType</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            @Html.ActionLink(linkText: Settings.settingsChangePassword, actionName: "ChangePassword", routeValues: null)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <p class="text-muted pt-4">@Settings.settingsSelectLanguage</p>
+            <div class="form-check">
+                @Html.RadioButton("language", "en", htmlAttributes: new { id = "radio_en", @class = "form-check-input" })
+                <label for="radio_en">@Settings.settingsEnglish</label>
+            </div>
+            <div class="form-check">
+                @Html.RadioButton("language", "hr", htmlAttributes: new { id = "radio_hr", @class = "form-check-input" })
+                <label for="radio_hr">@Settings.settingsCroatian</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(() => {
+            $('input[type=radio][name=language]').change(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action(controllerName:"Settings", actionName:"Settings")",
+                    data: { "culture": this.value },
+                    success: () => {
+                        location.reload();
+                    },
+                    error: data => {
+                        console.error(data["message"]);
+                    }
+                });
+            });
+        })
+    </script>
+}
